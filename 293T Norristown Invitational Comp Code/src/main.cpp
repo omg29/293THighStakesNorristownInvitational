@@ -1,4 +1,9 @@
 #include "main.h"
+#include "intake.hpp"
+#include "lb.hpp"
+#include "pros/misc.h"
+#include "subsystems.hpp"
+#include "autons.hpp"
 
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
@@ -74,6 +79,18 @@ void initialize() {
       {"Boomerang Pure Pursuit\n\nGo to (0, 24, 45) on the way to (24, 24) then come back to (0, 0, 0)", odom_boomerang_injected_pure_pursuit_example},
       {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
       */
+
+      {"Quals Red Goal", qualsRedGoal},
+      {"Quals Blue Goal", qualsBlueGoal},
+      {"Quals Red Ring", qualsRedRing},
+      {"Quals Blue Ring", qualsBlueRing},
+      {"Elims Red Goal", elimsRedGoal},
+      {"Elims Blue Goal", elimsBlueGoal},
+      {"Elims Red Ring", elimsRedRing},
+      {"Elims Blue Ring", elimsBlueRing},
+      {"RED Solo AWP", soloAWPRed},
+      {"BLUE Solo AWP", solowAWPBlue},
+      {"Prog Skills", progSkills},
 
       
   });
@@ -243,6 +260,10 @@ void ez_template_extras() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+
+std::string currentColor = "adi = goat";
+
+
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
@@ -251,8 +272,8 @@ void opcontrol() {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
 
-    chassis.opcontrol_tank();  // Tank control
-    // chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
+    //chassis.opcontrol_tank();  // Tank control
+    chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
@@ -261,6 +282,57 @@ void opcontrol() {
     // Put more user control code here!
     // . . .
 
+    //intake
+    if(master.get_digital(DIGITAL_R1)){
+      setIntake(127);
+    }
+    else if(master.get_digital(DIGITAL_UP)){
+      setIntake(-127);
+    }
+    else{
+      setIntake(0);
+    }
+
+    //lb
+    if(master.get_digital_new_press(DIGITAL_R2)){
+      nextState();
+    }
+
+    //clamp
+    if(master.get_digital_new_press(DIGITAL_L1)){
+      clamp1.toggle();
+    }
+
+    //doinkers
+    if(master.get_digital_new_press(DIGITAL_L2)){
+      rightDoinker.toggle();
+    }
+    if(master.get_digital_new_press(DIGITAL_LEFT)){
+      leftDoinker.toggle();
+    }
+    if(master.get_digital_new_press(DIGITAL_RIGHT)){
+      rightDoinker.toggle();
+    }
+
+    //color sort
+    if(master.get_digital_new_press(DIGITAL_A)){
+      cycleAllianceColor();
+    }
+
+    //print alliance color on controller
+    if(allianceColor == 0){
+      currentColor = "RED";
+    }
+    else if (allianceColor == 1){
+        currentColor = "BLUE";
+    }
+    else{
+        currentColor = "NEUTRAL";
+    }
+    master.print(0, 0, "Counter: %s", currentColor);
+    }
+
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
-  }
+
+    master.clear();
 }

@@ -27,3 +27,4 @@ void elimsRedRing();
 void elimsBlueRing();
 void soloAWPRed();
 void solowAWPBlue();
+void progSkills();

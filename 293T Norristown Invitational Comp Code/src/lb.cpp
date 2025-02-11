@@ -6,8 +6,8 @@
 pros::Motor lb(-20);
 pros::Rotation rotationSensor(9);
 
-const int numStates = 3;
-int states[numStates] = {0, 39, 140};
+const int numStates = 4;
+int states[numStates] = {0, 40, 110, 140};
 int currState = 0;
 int target = 0;
 
