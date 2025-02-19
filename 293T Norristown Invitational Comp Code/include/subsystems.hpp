@@ -12,4 +12,4 @@ inline pros::adi::Pneumatics clamp1('A', false);
 
 //doinkers
 inline pros::adi::Pneumatics leftDoinker('B', false);
-inline pros::adi::Pneumatics rightDoinker('C', false);
+inline pros::adi::Pneumatics rightDoinker('F', false);

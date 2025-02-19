@@ -2,6 +2,7 @@
 #include "intake.hpp"
 #include "lb.hpp"
 #include "pros/misc.h"
+#include "robodash/views/selector.hpp"
 #include "subsystems.hpp"
 #include "autons.hpp"
 
@@ -25,7 +26,7 @@ ez::Drive chassis(
 //  - you should get positive values on the encoders going FORWARD and RIGHT
 // - `2.75` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
-ez::tracking_wheel horiz_tracker(-8, 2.75, -2.25);  // This tracking wheel is perpendicular to the drive wheels
+//ez::tracking_wheel horiz_tracker(-8, 2.75, -2.25);  // This tracking wheel is perpendicular to the drive wheels
 // ez::tracking_wheel vert_tracker(9, 2.75, 4.0);   // This tracking wheel is parallel to the drive wheels
 
 /**
@@ -34,16 +35,33 @@ ez::tracking_wheel horiz_tracker(-8, 2.75, -2.25);  // This tracking wheel is pe
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
+rd::Selector selector({
+  {"Quals Red Goal", qualsRedGoal},
+    {"Quals Blue Goal", qualsBlueGoal},
+    {"Quals Red Ring", qualsRedRing},
+    {"Quals Blue Ring", qualsBlueRing},
+    {"Elims Red Goal", elimsRedGoal},
+    {"Elims Blue Goal", elimsBlueGoal},
+    {"Elims Red Ring", elimsRedRing},
+    {"Elims Blue Ring", elimsBlueRing},
+    {"RED Solo AWP", soloAWPRed},
+    {"BLUE Solo AWP", soloAWPBlue},
+    {"Prog Skills", progSkills},
+});
+
+ 
 void initialize() {
   // Print our branding over your terminal :D
   ez::ez_template_print();
+  rotationSensor.reset_position();
 
   pros::delay(500);  // Stop the user from doing anything while legacy ports configure
 
   // Look at your horizontal tracking wheel and decide if it's in front of the midline of your robot or behind it
   //  - change `back` to `front` if the tracking wheel is in front of the midline
   //  - ignore this if you aren't using a horizontal tracker
-  chassis.odom_tracker_back_set(&horiz_tracker);
+  //chassis.odom_tracker_back_set(&horiz_tracker);
   // Look at your vertical tracking wheel and decide if it's to the left or right of the center of the robot
   //  - change `left` to `right` if the tracking wheel is to the right of the centerline
   //  - ignore this if you aren't using a vertical tracker
@@ -56,6 +74,12 @@ void initialize() {
 
   // Set the drive to your own constants from autons.cpp!
   default_constants();
+
+  //lb
+  pros::Task ladyBrownTask(lbAsyncControl);
+
+  //intake control
+  pros::Task intakeTask(asyncIntakeControl);
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
   // chassis.opcontrol_curve_buttons_left_set(pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT);  // If using tank, only the left side is used.
@@ -80,16 +104,17 @@ void initialize() {
       {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
       */
 
-      {"Quals Red Goal", qualsRedGoal},
-      {"Quals Blue Goal", qualsBlueGoal},
+      //{"Quals Red Goal", qualsRedGoal},
+      //{"Quals Blue Goal", qualsBlueGoal},
       {"Quals Red Ring", qualsRedRing},
-      {"Quals Blue Ring", qualsBlueRing},
+      //{"Quals Blue Ring", qualsBlueRing},
+      /*
       {"Elims Red Goal", elimsRedGoal},
       {"Elims Blue Goal", elimsBlueGoal},
       {"Elims Red Ring", elimsRedRing},
       {"Elims Blue Ring", elimsBlueRing},
       {"RED Solo AWP", soloAWPRed},
-      {"BLUE Solo AWP", solowAWPBlue},
+      {"BLUE Solo AWP", soloAWPBlue},*/
       {"Prog Skills", progSkills},
 
       
@@ -153,6 +178,8 @@ void autonomous() {
   You can do cool curved motions, but you have to give your robot the best chance
   to be consistent
   */
+
+  //selector.run_auton();
 
   ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
 }
@@ -272,8 +299,8 @@ void opcontrol() {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
 
-    //chassis.opcontrol_tank();  // Tank control
-    chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
+    chassis.opcontrol_tank();  // Tank control
+    //chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
@@ -305,7 +332,7 @@ void opcontrol() {
 
     //doinkers
     if(master.get_digital_new_press(DIGITAL_L2)){
-      rightDoinker.toggle();
+      leftDoinker.toggle();
     }
     if(master.get_digital_new_press(DIGITAL_LEFT)){
       leftDoinker.toggle();

@@ -75,6 +75,7 @@ void asyncIntakeControl(void * param){
         //run intake
         intake.move(intakeSpeed);
 
+
         //antiJam
         /*
         if(antiJam){
@@ -121,7 +122,7 @@ void asyncIntakeControl(void * param){
             pros::delay(300);
             wrongRing = false;
         }*/
-
+    /*
        if(wrongRing){
         ringEjected = false;
         upperIntake.set_zero_position_all(0);
@@ -137,7 +138,7 @@ void asyncIntakeControl(void * param){
             }
         }
         wrongRing = false;
-       }
+       }*/
 
         //delay
         pros::delay(20);
