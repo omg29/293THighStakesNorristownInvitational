@@ -104,9 +104,9 @@ void initialize() {
       {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
       */
 
-      //{"Quals Red Goal", qualsRedGoal},
+      {"Quals Red Goal", qualsRedGoal},
       //{"Quals Blue Goal", qualsBlueGoal},
-      {"Quals Red Ring", qualsRedRing},
+      //{"Quals Red Ring", qualsRedRing},
       //{"Quals Blue Ring", qualsBlueRing},
       /*
       {"Elims Red Goal", elimsRedGoal},

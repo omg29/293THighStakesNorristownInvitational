@@ -386,11 +386,11 @@ void qualsRedGoal(){
   cycleAllianceColor();
   cycleAllianceColor();
   //score on alliance stake
-  chassis.pid_drive_set(14.8*driveBias, DRIVE_SPEED);
+  chassis.pid_drive_set(14*driveBias, DRIVE_SPEED);
   pros::delay(1000);
   chassis.pid_turn_relative_set(92, TURN_SPEED);
   chassis.pid_wait_quick();
-  chassis.pid_drive_set(-3.25*driveBias, DRIVE_SPEED*0.5);
+  chassis.pid_drive_set(-3.5*driveBias, DRIVE_SPEED*0.5);
   pros::delay(500);
   setIntake(127);
   pros::delay(250);
@@ -399,33 +399,35 @@ void qualsRedGoal(){
   chassis.pid_wait_quick();
   chassis.pid_drive_set(16*driveBias, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_turn_relative_set(-170, TURN_SPEED);
+  chassis.pid_turn_relative_set(-175, TURN_SPEED);
   chassis.pid_wait_quick();
   clamp1.toggle();
-  chassis.pid_drive_set(-27*driveBias, DRIVE_SPEED*0.5);
+  chassis.pid_drive_set(-29*driveBias, DRIVE_SPEED*0.5);
   pros::delay(1000);
   clamp1.toggle();
   pros::delay(500);
   setIntake(0);
   //get mid ring
   bottomIntake.move(127);
-  chassis.pid_turn_relative_set(105, TURN_SPEED);
+  chassis.pid_turn_relative_set(112, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(12*driveBias, DRIVE_SPEED);
+  chassis.pid_drive_set(15*driveBias, DRIVE_SPEED);
   chassis.pid_wait_quick_chain();
   rightDoinker.toggle();
   pros::delay(500);
   setIntake(-127);
   //get single stack
-  chassis.pid_drive_set(-30*driveBias, DRIVE_SPEED);
+  chassis.pid_drive_set(-25*driveBias, DRIVE_SPEED);
   chassis.pid_wait_quick_chain();
   rightDoinker.toggle();
   setIntake(127);
-  chassis.pid_swing_relative_set(ez::LEFT_SWING, 135, SWING_SPEED);
-  chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(4*driveBias, DRIVE_SPEED);
-  chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(-3*driveBias, DRIVE_SPEED);
+  chassis.pid_swing_relative_set(ez::LEFT_SWING, 90, SWING_SPEED);
+  pros::delay(400);
+  chassis.pid_drive_set(3*driveBias, DRIVE_SPEED);
+  pros::delay(250);
+  chassis.pid_swing_relative_set(ez::LEFT_SWING, 35, SWING_SPEED);
+  pros::delay(400);
+  chassis.pid_drive_set(15*driveBias, DRIVE_SPEED);
 
 
 
@@ -448,7 +450,7 @@ void qualsRedRing(){
   //score on alliance stake
   chassis.pid_turn_relative_set(-92, TURN_SPEED);
   chassis.pid_wait_quick();
-  chassis.pid_drive_set(-5*driveBias, DRIVE_SPEED*0.5);
+  chassis.pid_drive_set(-5.5*driveBias, DRIVE_SPEED*0.5);
   pros::delay(500);
   setIntake(127);
   leftDoinker.toggle();
@@ -456,8 +458,8 @@ void qualsRedRing(){
   //clamp goal
   chassis.pid_turn_relative_set(-25, TURN_SPEED);
   chassis.pid_wait_quick();
-  chassis.pid_drive_set(16*driveBias, DRIVE_SPEED);
-  pros::delay(500);
+  chassis.pid_drive_set(16.5*driveBias, DRIVE_SPEED);
+  pros::delay(750);
   setIntake(0);
   chassis.pid_turn_relative_set(170, TURN_SPEED);
   chassis.pid_wait_quick();
@@ -488,7 +490,7 @@ void qualsRedRing(){
   nextState();
   nextState();
   nextState();
-  chassis.pid_drive_set(12*driveBias, DRIVE_SPEED);
+  chassis.pid_drive_set(13*driveBias, DRIVE_SPEED);
 
 }
 
